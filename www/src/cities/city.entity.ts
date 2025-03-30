@@ -14,4 +14,9 @@ export class City {
 
     @OneToMany(type => Site, site => site.city)
     sites: Site[];
+
+    constructor(name: string, country: string) {
+        this.name = name;
+        this.country = country;
+    }
 }

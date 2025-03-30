@@ -1,0 +1,26 @@
+services:
+  explore_mysql:
+    image: mysql:latest
+    container_name: mysql_explore_city
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - ./database/data:/var/lib/mysql
+    networks:
+      - internal
+    ports:
+      - '8446:3306'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+
+networks:
+  internal:
+    driver: bridge

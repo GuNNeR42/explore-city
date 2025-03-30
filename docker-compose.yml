@@ -1,4 +1,21 @@
 services:
+  explore_nest:
+    build:
+      context: ./www
+      dockerfile: Dockerfile
+    container_name: nest_explore_city
+    depends_on:
+      - explore_mysql
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    networks:
+      - internal
+    volumes:
+      - ./www:/app
+      - /app/node_modules
+    command: npm run start:dev
+
   explore_mysql:
     image: mysql:latest
     container_name: mysql_explore_city

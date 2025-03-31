@@ -12,6 +12,9 @@ export class City {
     @Column()
     country: string;
 
+    @Column()
+    imageUrl: string;
+
     @OneToMany(type => Site, site => site.city)
     sites: Site[];
 

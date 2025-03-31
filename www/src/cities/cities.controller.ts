@@ -1,7 +1,8 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
-import {City} from "./city.entity";
-import {CitiesService} from "./city.service";
+import {CitiesService} from "./cities.service";
 import {CreateUpdateCityDto} from "./Dtos/CreateUpdateCityDto";
+import {BriefReturnCityDto} from "./Dtos/BriefReturnCityDto";
+import {DetailedReturnCityDto} from "./Dtos/DetailedReturnCityDto";
 
 @Controller('cities')
 export class CitiesController {
@@ -11,15 +12,15 @@ export class CitiesController {
     }
 
     @Get()
-    getCities(): Promise<City[]> {
+    getCities(): Promise<BriefReturnCityDto[]> {
         return this.citiesService.getCities();
     }
 
     @Get(':id')
-    getCity(@Param('id') id: number): Promise<City> {
-        return this.citiesService.getCity(id);
+    getCity(@Param('id') id: number): Promise<DetailedReturnCityDto> {
+        return this.citiesService.getCityWithSites(id);
     }
-
+    
     @Post()
     createCity(@Body() data: CreateUpdateCityDto): Promise<number> {
         return this.citiesService.createCity(data);

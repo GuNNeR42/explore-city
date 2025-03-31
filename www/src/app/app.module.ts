@@ -6,11 +6,13 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {ConfigModule} from "@nestjs/config";
 import {City} from "../cities/city.entity";
 import {Site} from "../sites/Entities/site.entity";
+import {SitesModule} from "../sites/sites.module";
 
 @Module({
   imports: [
       ConfigModule.forRoot(),
       CitiesModule,
+      SitesModule,
       TypeOrmModule.forRoot({
           type: 'mysql',
           host: 'explore_mysql',

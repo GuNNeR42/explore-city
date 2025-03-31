@@ -20,7 +20,7 @@ export class CitiesController {
     getCity(@Param('id') id: number): Promise<DetailedReturnCityDto> {
         return this.citiesService.getCityWithSites(id);
     }
-    
+
     @Post()
     createCity(@Body() data: CreateUpdateCityDto): Promise<number> {
         return this.citiesService.createCity(data);

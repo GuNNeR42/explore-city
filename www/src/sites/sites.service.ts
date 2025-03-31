@@ -5,6 +5,7 @@ import {Repository} from "typeorm";
 import {City} from "../cities/city.entity";
 import {BriefReturnSiteDto} from "./Dtos/BriefReturnSiteDto";
 import {SiteType} from "./Entities/site_type.enum";
+import {DetailedReturnSiteDto} from "./Dtos/DetailedReturnSiteDto";
 
 @Injectable()
 export class SitesService  {
@@ -37,5 +38,30 @@ export class SitesService  {
             name: s.name,
             type: SiteType[s.type]
         }));
+    }
+
+    async getSiteDetails(siteId: number): Promise<DetailedReturnSiteDto> {
+        const site = await this.sitesRepository.findOne({
+            where: {
+                id: Number(siteId)
+            },
+            relations: ['city']
+        });
+        if (!site) {
+            throw new NotFoundException(`Site with id ${siteId} not found`);
+        }
+
+        return {
+            id: site.id,
+            name: site.name,
+            description: site.description,
+            address_line_1: site.address_line_1,
+            address_line_2: site.address_line_2,
+            city: site.city.name,
+            country: site.city.country,
+            displayedAddress: site.GetFullAddress(),
+            site_type: site.type,
+            site_type_value: SiteType[site.type],
+        }
     }
 }

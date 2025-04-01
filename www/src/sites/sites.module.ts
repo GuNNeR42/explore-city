@@ -9,5 +9,6 @@ import {City} from "../cities/city.entity";
     imports: [TypeOrmModule.forFeature([Site, City])],
     controllers: [SitesController],
     providers: [SitesService],
+    exports: [SitesService],
 })
 export class SitesModule {}

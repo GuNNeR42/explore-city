@@ -1,9 +1,9 @@
 import {ApiProperty} from "@nestjs/swagger";
 
-export class CreateUpdateCityDto {
+export class CreateRatingDto {
     @ApiProperty()
-    name: string;
+    username: string;
 
     @ApiProperty()
-    country: string;
+    rating: number;
 }

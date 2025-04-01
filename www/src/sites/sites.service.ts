@@ -76,4 +76,12 @@ export class SitesService  {
         )
         return s.id;
     }
+
+    async getSite(id: number): Promise<Site> {
+        const site = await this.sitesRepository.findOneBy({ id: id });
+        if (!site) {
+            throw new NotFoundException(`Site with id ${id} not found`);
+        }
+        return site;
+    }
 }

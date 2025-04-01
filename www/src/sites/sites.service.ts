@@ -6,6 +6,7 @@ import {City} from "../cities/city.entity";
 import {BriefReturnSiteDto} from "./Dtos/BriefReturnSiteDto";
 import {SiteType} from "./Entities/site_type.enum";
 import {DetailedReturnSiteDto} from "./Dtos/DetailedReturnSiteDto";
+import {CreateSiteDto} from "./Dtos/CreateSiteDto";
 
 @Injectable()
 export class SitesService  {
@@ -63,5 +64,16 @@ export class SitesService  {
             site_type: site.type,
             site_type_value: SiteType[site.type],
         }
+    }
+
+    async createSite(cityId: number, dto: CreateSiteDto): Promise<number> {
+        const c = await this.cityRepository.findOneBy({ id: cityId });
+        if (!c) {
+            throw new NotFoundException(`City with id ${cityId} not found`);
+        }
+        const s = await this.sitesRepository.save(
+            new Site(c, dto.name, dto.description, dto.address_line_1, dto.address_line_2, dto.site_type),
+        )
+        return s.id;
     }
 }

@@ -4,6 +4,14 @@ import {City} from "../../cities/city.entity";
 
 @Entity('sites')
 export class Site {
+    constructor(city: City, name: string, description: string, address_line_1: string, address_line_2: string, site_type: SiteType) {
+        this.city = city;
+        this.name = name;
+        this.description = description;
+        this.address_line_1 = address_line_1;
+        this.address_line_2 = address_line_2;
+        this.type = site_type;
+    }
     @PrimaryGeneratedColumn()
     id: number;
 

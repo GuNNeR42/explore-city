@@ -1,7 +1,7 @@
 services:
   explore_nest:
     build:
-      context: ./www
+      context: ./backend
       dockerfile: Dockerfile
     container_name: nest_explore_city
     depends_on:
@@ -12,7 +12,7 @@ services:
     networks:
       - internal
     volumes:
-      - ./www:/app
+      - ./backend:/app
       - /app/node_modules
     command: npm run start:dev
 

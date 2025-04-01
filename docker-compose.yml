@@ -28,6 +28,7 @@ services:
       - .env
     volumes:
       - ./database/data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
     networks:
       - internal
     ports:

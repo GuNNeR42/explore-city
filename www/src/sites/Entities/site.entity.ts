@@ -1,6 +1,8 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {SiteType} from "./site_type.enum";
 import {City} from "../../cities/city.entity";
+import {Comment} from "../../comments/comment.entity";
+import {Rating} from "../../ratings/rating.entity";
 
 @Entity('sites')
 export class Site {
@@ -36,6 +38,12 @@ export class Site {
 
     @ManyToOne(type => City, city => city.sites)
     city: City;
+
+    @OneToMany(type => Comment, comment => comment.site)
+    comments: Comment[];
+
+    @OneToMany(type => Rating, rating => rating.site)
+    ratings: Rating[];
 
     GetFullAddress(){
         return `${this.address_line_1} ${this.address_line_2}, ${this.city.name}, ${this.city.country}`;

@@ -3,7 +3,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Rating} from "./rating.entity";
 import {Repository} from "typeorm";
 import {CreateRatingDto} from "./Dtos/CreateRatingDto";
-import {SitesService} from "../sites/sites.service";
+import {PlacesService} from "../places/places.service";
 
 @Injectable()
 export class RatingsService {
@@ -11,29 +11,29 @@ export class RatingsService {
         @InjectRepository(Rating)
         private readonly ratingRepository: Repository<Rating>,
 
-        private readonly sitesService : SitesService
+        private readonly placesService : PlacesService
     ) {}
 
     async getRatings(placeId: number): Promise<Rating[]> {
-        const site = await this.sitesService.getSite(placeId);
+        const place = await this.placesService.getPlace(placeId);
 
         return this.ratingRepository.find({
-            where: {site: {id: site.id}},
+            where: {place: {id: place.id}},
             order: {created_at: 'DESC'}
         });
     }
 
     async getRatingAvg(placeId: number): Promise<number> {
-        const site = await this.sitesService.getSite(placeId);
+        const place = await this.placesService.getPlace(placeId);
 
-        return await this.ratingRepository.average('rating', {site: {id: site.id}}) ?? 0;
+        return await this.ratingRepository.average('rating', {place: {id: place.id}}) ?? 0;
     }
 
     async createRating(placeId: number, dto: CreateRatingDto): Promise<number> {
-        const site = await this.sitesService.getSite(placeId);
+        const place = await this.placesService.getPlace(placeId);
 
         const rating = await this.ratingRepository.save(
-            new Rating(site, dto.username, dto.rating),
+            new Rating(place, dto.username, dto.rating),
         );
 
         return rating.id;

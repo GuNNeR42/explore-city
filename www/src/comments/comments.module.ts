@@ -3,11 +3,11 @@ import {Module} from "@nestjs/common";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {CommentsController} from "./comments.controller";
 import {CommentsService} from "./comments.service";
-import {Site} from "../sites/Entities/site.entity";
-import {SitesModule} from "../sites/sites.module";
+import {Place} from "../places/Entities/place.entity";
+import {PlacesModule} from "../places/places.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Comment, Site]), SitesModule],
+    imports: [TypeOrmModule.forFeature([Comment, Place]), PlacesModule],
     controllers: [CommentsController],
     providers: [CommentsService],
 })

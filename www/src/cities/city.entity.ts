@@ -1,5 +1,5 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Site} from "../sites/Entities/site.entity";
+import {Place} from "../places/Entities/place.entity";
 
 @Entity('cities')
 export class City {
@@ -15,8 +15,8 @@ export class City {
     @Column()
     imageUrl: string;
 
-    @OneToMany(type => Site, site => site.city)
-    sites: Site[];
+    @OneToMany(type => Place, place => place.city)
+    places: Place[];
 
     constructor(name: string, country: string) {
         this.name = name;

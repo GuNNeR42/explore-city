@@ -1,7 +1,7 @@
-import {SiteType} from "../Entities/site_type.enum";
+import {PlaceType} from "../Entities/place_type.enum";
 import {ApiProperty} from "@nestjs/swagger";
 
-export class CreateSiteDto {
+export class CreatePlaceDto {
     @ApiProperty()
     name: string;
 
@@ -15,5 +15,5 @@ export class CreateSiteDto {
     address_line_2: string;
 
     @ApiProperty()
-    site_type: SiteType;
+    place_type: PlaceType;
 }

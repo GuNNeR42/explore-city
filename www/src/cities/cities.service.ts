@@ -5,7 +5,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {CreateUpdateCityDto} from "./Dtos/CreateUpdateCityDto";
 import {BriefReturnCityDto} from "./Dtos/BriefReturnCityDto";
 import {DetailedReturnCityDto} from "./Dtos/DetailedReturnCityDto";
-import {SiteType} from "../sites/Entities/site_type.enum";
+import {PlaceType} from "../places/Entities/place_type.enum";
 
 @Injectable()
 export class CitiesService {
@@ -23,12 +23,12 @@ export class CitiesService {
         }));
     }
 
-    async getCityWithSites(id: number): Promise<DetailedReturnCityDto> {
+    async getCityWithPlaces(id: number): Promise<DetailedReturnCityDto> {
         const city = await this.cityRepository.findOne({
             where:  {
                 id: id,
             },
-            relations: ['sites']
+            relations: ['places']
         });
         if (!city) {
             throw new NotFoundException("No City");
@@ -38,12 +38,11 @@ export class CitiesService {
             name: city.name,
             country: city.country,
             imageUrl: city.imageUrl,
-            sites: city.sites.map(s => ({
+            places: city.places.map(s => ({
                 id: s.id,
                 name: s.name,
-                type: SiteType[s.type], // Assuming `type` exists in `site`
+                type: PlaceType[s.type],
             })),
-            // sites: city.sites,
         };
     }
 

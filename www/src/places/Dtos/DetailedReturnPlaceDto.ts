@@ -1,4 +1,4 @@
-export class DetailedReturnSiteDto {
+export class DetailedReturnPlaceDto {
     id: number;
     name: string
     description: string
@@ -7,6 +7,6 @@ export class DetailedReturnSiteDto {
     city: string
     country: string
     displayedAddress: string
-    site_type: number
-    site_type_value: string
+    place_type: number
+    place_type_value: string
 }

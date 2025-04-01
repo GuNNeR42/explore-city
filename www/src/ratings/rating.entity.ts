@@ -1,10 +1,10 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Site} from "../sites/Entities/site.entity";
+import {Place} from "../places/Entities/place.entity";
 
 @Entity('ratings')
 export class Rating {
-    constructor(site: Site, username: string, rating: number) {
-        this.site = site;
+    constructor(place: Place, username: string, rating: number) {
+        this.place = place;
         this.username = username;
         this.rating = rating;
         this.created_at = new Date();
@@ -22,6 +22,6 @@ export class Rating {
     @Column()
     created_at: Date;
 
-    @ManyToOne(type => Site, site => site.ratings)
-    site: Site;
+    @ManyToOne(type => Place, place => place.ratings)
+    place: Place;
 }

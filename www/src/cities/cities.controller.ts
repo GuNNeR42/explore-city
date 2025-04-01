@@ -18,7 +18,7 @@ export class CitiesController {
 
     @Get(':id')
     getCity(@Param('id') id: number): Promise<DetailedReturnCityDto> {
-        return this.citiesService.getCityWithSites(id);
+        return this.citiesService.getCityWithPlaces(id);
     }
 
     @Post()

@@ -12,7 +12,7 @@ export class City {
     @Column()
     country: string;
 
-    @Column()
+    @Column({nullable: true, type: String})
     imageUrl: string;
 
     @OneToMany(type => Place, place => place.city)

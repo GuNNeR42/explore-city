@@ -38,6 +38,20 @@ services:
       timeout: 5s
       retries: 10
 
+  explore_phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin_explore_city
+    ports:
+      - '8447:80'
+    environment:
+      - PMA_HOST=explore_mysql
+      - PMA_PORT=3306
+    depends_on:
+      explore_mysql:
+        condition: service_healthy
+    networks:
+      - internal
+
 networks:
   internal:
     driver: bridge

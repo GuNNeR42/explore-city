@@ -29,10 +29,15 @@ header h6 {
     flex-direction: column;
     gap: 1rem;
     margin-top: .75rem;
+    .card img {
+        object-fit: cover;
+        height: 15rem;
+    }
 }
 #main-cards h3 {
     text-align: center;
 }
+
 #city-details {
     margin-top: .75rem;
 }
@@ -46,6 +51,10 @@ header h6 {
     gap: .5rem;
     width: 95%;
     margin: 0 auto;
+    img {
+        object-fit: cover;
+        height: 10rem;
+    }
 }
 
 #city-details h5 {
@@ -60,12 +69,22 @@ header h6 {
 #city-details a {
     text-decoration: none;
 }
+.hidden {
+    display: none;
+}
 
 
 @media (min-width: 768px) {
     #main-cards {
         flex-direction: row;
         margin-top: 1.5rem;
+    }
+
+    #main-cards .card {
+        flex: 1;
+        img {
+            height: 20rem;
+        }
     }
 
     #city-details {

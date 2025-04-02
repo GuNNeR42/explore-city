@@ -37,7 +37,7 @@ export class PlacesService {
         return places.map(s => ({
             id: s.id,
             name: s.name,
-            type: PlaceType[s.type]
+            type: PlaceType[s.type] ?? null
         }));
     }
 

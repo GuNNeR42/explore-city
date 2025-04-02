@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put, Query} from "@nestjs/common";
 import {CitiesService} from "./cities.service";
 import {CreateUpdateCityDto} from "./Dtos/CreateUpdateCityDto";
 import {BriefReturnCityDto} from "./Dtos/BriefReturnCityDto";
@@ -12,8 +12,18 @@ export class CitiesController {
     }
 
     @Get()
-    getCities(): Promise<BriefReturnCityDto[]> {
-        return this.citiesService.getCities();
+    getCities(
+        @Query('start') start = 0,
+        @Query('count') count = 3
+    ): Promise<BriefReturnCityDto[]> {
+        return this.citiesService.getCities(start, count);
+    }
+
+    @Get('random')
+    async getRandomCities(
+        @Query('count') count = 3
+    ): Promise<BriefReturnCityDto[]> {
+        return this.citiesService.getRandomCities(Number(count));
     }
 
     @Get(':id')

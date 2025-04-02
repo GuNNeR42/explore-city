@@ -14,12 +14,30 @@ export class CitiesService {
         private cityRepository: Repository<City>,
     ) {}
 
-    async getCities(): Promise<BriefReturnCityDto[]> {
-        const cities = await this.cityRepository.find({ order: { name: 'ASC'}});
+    async getCities(start: number, count: number): Promise<BriefReturnCityDto[]> {
+        const cities = await this.cityRepository.find({
+            order: { name: 'ASC'},
+            skip: start,
+            take: count,
+            });
         return cities.map(c => ({
             id: c.id,
             name: c.name,
             imageUrl: c.imageUrl,
+        }));
+    }
+
+    async getRandomCities(count: number): Promise<BriefReturnCityDto[]> {
+        const cities = await this.cityRepository
+            .createQueryBuilder('city')
+            .orderBy('RAND()')
+            .limit(count)
+            .getMany();
+
+        return cities.map(c => ({
+            id: c.id,
+            name: c.name,
+            imageUrl: c.imageUrl ?? null,
         }));
     }
 

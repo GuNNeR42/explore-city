@@ -1,5 +1,5 @@
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {DeleteResult, Repository} from "typeorm";
 import {Injectable} from "@nestjs/common";
 import {Comment} from "./comment.entity";
 import {CreateCommentDto} from "./Dtos/CreateCommentDto";
@@ -37,6 +37,10 @@ export class CommentsService {
         )
 
         return comment.id;
+    }
+
+    async deleteComment(commentId: number): Promise<void> {
+        await this.commentRepository.delete(commentId);
     }
 
 }

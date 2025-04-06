@@ -5,7 +5,7 @@ import {City} from "../cities/city.entity";
 import {BriefReturnPlaceDto} from "./Dtos/BriefReturnPlaceDto";
 import {PlaceType} from "./Entities/place_type.enum";
 import {DetailedReturnPlaceDto} from "./Dtos/DetailedReturnPlaceDto";
-import {CreatePlaceDto} from "./Dtos/CreatePlaceDto";
+import {CreateUpdatePlaceDto} from "./Dtos/CreateUpdatePlaceDto";
 import {Place} from "./Entities/place.entity";
 
 @Injectable()
@@ -60,13 +60,13 @@ export class PlacesService {
             address_line_2: place.address_line_2,
             city: place.city.name,
             country: place.city.country,
-            displayedAddress: place.GetFullAddress(),
+            displayed_address: place.GetFullAddress(),
             place_type: place.type,
             place_type_value: PlaceType[place.type],
         }
     }
 
-    async createPlace(cityId: number, dto: CreatePlaceDto): Promise<number> {
+    async createPlace(cityId: number, dto: CreateUpdatePlaceDto): Promise<number> {
         const c = await this.cityRepository.findOneBy({ id: cityId });
         if (!c) {
             throw new NotFoundException(`City with id ${cityId} not found`);
@@ -83,5 +83,19 @@ export class PlacesService {
             throw new NotFoundException(`Place with id ${id} not found`);
         }
         return place;
+    }
+
+    async updatePlace(id: number, dto: CreateUpdatePlaceDto): Promise<void> {
+        await this.placesRepository.update({id: id}, {
+            name: dto.name,
+            description: dto.description,
+            address_line_1: dto.address_line_1,
+            address_line_2: dto.address_line_2,
+            type: dto.place_type,
+        });
+    }
+
+    async deletePlace(id: number): Promise<void> {
+        await this.placesRepository.delete({id: id});
     }
 }

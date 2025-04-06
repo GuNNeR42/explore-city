@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post} from "@nestjs/common";
 import {RatingsService} from "./ratings.service";
 import {CreateRatingDto} from "./Dtos/CreateRatingDto";
 
@@ -17,7 +17,13 @@ export class RatingsController {
     }
 
     @Post('places/:placeId/ratings')
-    createNewRating(@Param('placeId') placeId: number, @Body() dto: CreateRatingDto) {
+    createNewRating(@Param('placeId') placeId: number, @Body() dto: CreateRatingDto): Promise<number> {
         return this.ratingsService.createRating(placeId, dto);
+    }
+
+    @Delete('ratings/:ratingId')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    deleteRating(@Param('ratingId') ratingId: number): Promise<void> {
+        return this.ratingsService.deleteRating(ratingId);
     }
 }

@@ -1,7 +1,7 @@
 import {PlaceType} from "../Entities/place_type.enum";
 import {ApiProperty} from "@nestjs/swagger";
 
-export class CreatePlaceDto {
+export class CreateUpdatePlaceDto {
     @ApiProperty()
     name: string;
 

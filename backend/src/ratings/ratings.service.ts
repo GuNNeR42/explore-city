@@ -1,7 +1,7 @@
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Rating} from "./rating.entity";
-import {Repository} from "typeorm";
+import {DeleteResult, Repository} from "typeorm";
 import {CreateRatingDto} from "./Dtos/CreateRatingDto";
 import {PlacesService} from "../places/places.service";
 
@@ -37,5 +37,9 @@ export class RatingsService {
         );
 
         return rating.id;
+    }
+
+    async deleteRating(ratingId: number): Promise<void> {
+        await this.ratingRepository.delete(ratingId);
     }
 }

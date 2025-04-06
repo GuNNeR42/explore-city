@@ -6,7 +6,7 @@ export class DetailedReturnPlaceDto {
     address_line_2: string
     city: string
     country: string
-    displayedAddress: string
+    displayed_address: string
     place_type: number
     place_type_value: string
 }

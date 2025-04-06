@@ -15,7 +15,9 @@ export class City {
     @Column({nullable: true, type: String})
     imageUrl: string;
 
-    @OneToMany(type => Place, place => place.city)
+    @OneToMany(type => Place, place => place.city, {
+        onDelete: 'CASCADE',
+    })
     places: Place[];
 
     constructor(name: string, country: string) {

@@ -22,6 +22,8 @@ export class Rating {
     @Column()
     created_at: Date;
 
-    @ManyToOne(type => Place, place => place.ratings)
+    @ManyToOne(type => Place, place => place.ratings, {
+        onDelete: 'CASCADE',
+    })
     place: Place;
 }

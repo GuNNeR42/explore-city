@@ -36,13 +36,19 @@ export class Place {
     })
     type: PlaceType;
 
-    @ManyToOne(type => City, city => city.places)
+    @ManyToOne(type => City, city => city.places, {
+        onDelete: 'CASCADE'
+    })
     city: City;
 
-    @OneToMany(type => Comment, comment => comment.place)
+    @OneToMany(type => Comment, comment => comment.place, {
+        onDelete: 'CASCADE',
+    })
     comments: Comment[];
 
-    @OneToMany(type => Rating, rating => rating.place)
+    @OneToMany(type => Rating, rating => rating.place, {
+        onDelete: 'CASCADE',
+    })
     ratings: Rating[];
 
     GetFullAddress(){

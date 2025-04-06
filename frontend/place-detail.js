@@ -1,5 +1,17 @@
+const placeId = getQueryParam("placeId");
+
 document.addEventListener("DOMContentLoaded", function(){
+    document.getElementById("comment-form").addEventListener("submit", event => {
+        event.preventDefault();
+        sendNewComment();
+    });
+    document.getElementById("delete-place-button").addEventListener("click", event => {
+        event.preventDefault();
+        deletePlace();
+    });
+
     fetchPlaceData();
+
 })
 
 function getQueryParam(name) {
@@ -9,7 +21,6 @@ function getQueryParam(name) {
 
 // Fetch multiple endpoints in parallel
 async function fetchPlaceData() {
-    const placeId = getQueryParam("placeId");
     if (!placeId) {
         console.log("Place ID not found!");
         return;
@@ -42,20 +53,8 @@ async function fetchPlaceData() {
         console.log(place, comments, ratings, avgRating);
 
         // Populate UI
-        // document.getElementById("place-info").innerHTML = `<strong>${place.name}</strong><br>${place.description}`;
-        // document.getElementById("avg-rating").innerText = avgRating.average || "No ratings yet";
-        //
-        // // Populate Comments
-        // const commentsList = document.getElementById("comments-list");
-        // commentsList.innerHTML = comments.length
-        //     ? comments.map(c => `<li>${c.user}: ${c.comment}</li>`).join("")
-        //     : "<li>No comments yet.</li>";
-        //
-        // // Populate Ratings
-        // const ratingsList = document.getElementById("ratings-list");
-        // ratingsList.innerHTML = ratings.length
-        //     ? ratings.map(r => `<li>${r.user}: ${r.rating} ⭐</li>`).join("")
-        //     : "<li>No ratings yet.</li>";
+        populatePlaceDetails(place, ratings.length, avgRating);
+        populateComments(comments);
 
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -63,8 +62,87 @@ async function fetchPlaceData() {
     }
 }
 
-function populateComments(comments){
-    comments.forEach(c => {
+function populatePlaceDetails(place, ratingsCount, avgRating) {
+    document.title = `${place.name}`;
+    document.getElementById("name").innerText = place.name;
 
+    let ratingText = `${avgRating}/5 `;
+    ratingText += "⭐️️️".repeat(Math.round(avgRating));
+    ratingText += ` (${ratingsCount})`;
+    document.getElementById("rating").innerHTML = ratingText;
+
+    document.getElementById("address").innerHTML = place.displayed_address;
+    document.getElementById("description").innerHTML = place.description;
+}
+
+function populateComments(comments){
+    const container = document.getElementById("comments-container");
+    container.innerHTML = "";
+    comments.forEach(c => {
+        const comment = document.createElement("div");
+        comment.className = "comment";
+
+        comment.innerHTML = `
+        <div class="comment-header">
+          <h5>👤 ${c.username}</h5>
+          <span>${new Date(c.created_at).toLocaleString("cs-CZ")}</span>
+          <span class="delete">🗑️</span>
+        </div>
+        <p class="comment-body">
+          ${c.value}
+        </p>
+        `;
+        container.appendChild(comment);
+        container.querySelector(".delete").addEventListener("click", () => {deleteComment(c.id)});
+    })
+}
+
+
+function sendNewComment() {
+    const sender = document.getElementById("form-comment-name").value;
+    const value = document.getElementById("form-comment-body").value;
+
+    const body = {
+        username: sender.toString(),
+        value: value.toString(),
+    }
+
+    fetch(`http://localhost:3000/places/${placeId}/comments`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        console.log(response);
+        if (response.status >= 200 && response.status < 300) {
+            location.reload();
+        }
+    })
+}
+
+function deletePlace() {
+    fetch(`http://localhost:3000/places/${placeId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+            window.location.href = ("index.html");
+        }
+    });
+}
+
+function deleteComment(commentId) {
+    fetch(`http://localhost:3000/comments/${commentId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+            location.reload();
+        }
     })
 }

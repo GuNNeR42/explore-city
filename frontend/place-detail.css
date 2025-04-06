@@ -69,3 +69,7 @@
         background-color: #DADADA80;
     }
 }
+
+.delete:hover {
+    cursor: pointer;
+}

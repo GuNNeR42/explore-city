@@ -67,14 +67,13 @@ async function populateCityPlaces(places, cityName) {
         const card = document.createElement("div");
         card.classList.add("card");
         card.innerHTML = `            
-            <a data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample">
-                <img src="${place.imageUrl ? place.imageUrl : await getPlaceholderImageUrl()}" class="card-img-top" alt="${place.name}">
-                <div class="card-body">
-                    <h5>${place.name}</h5>
-                    <h6>${reformatPlaceTypeString(place.type)}</h6>
-                </div>
-            </a>
+            <img src="${place.imageUrl ? place.imageUrl : await getPlaceholderImageUrl()}" class="card-img-top" alt="${place.name}">
+            <div class="card-body">
+                <h5>${place.name}</h5>
+                <h6>${reformatPlaceTypeString(place.type)}</h6>
+            </div>
         `;
+        card.addEventListener("click", () => openPlaceDetail(place.id));
         cityPlaceContainer.appendChild(card);
     }
     document.getElementById("city-details").classList.remove("hidden");
@@ -83,4 +82,8 @@ async function populateCityPlaces(places, cityName) {
 function reformatPlaceTypeString(place) {
     const foo =  place.replace(/_/g, " ");
     return foo.charAt(0).toUpperCase() + foo.slice(1).toLowerCase();
+}
+
+function openPlaceDetail(placeId){
+    window.open(`place-detail.html?placeId=${placeId}`, "_blank");
 }

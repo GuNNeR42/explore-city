@@ -93,7 +93,7 @@ function populateComments(comments){
         </p>
         `;
         container.appendChild(comment);
-        container.querySelector(".delete").addEventListener("click", () => {deleteComment(c.id)});
+        comment.querySelector(".delete").addEventListener("click", () => {deleteComment(c.id)});
     })
 }
 

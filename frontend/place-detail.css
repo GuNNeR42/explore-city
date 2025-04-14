@@ -41,19 +41,20 @@
 
 #comments {
     display: flex;
+    flex-direction: column;
     gap: 2rem;
 }
 
 #comments-container {
-    flex-basis: 60%;
+    flex-basis: 100%;
 }
 
 #comment-form {
     display: flex;
-    flex-basis: 40%;
     flex-direction: column;
+    flex-basis: 100%;
     gap: 1rem;
-    width: max-content;
+    width: 100%;
     label {
         display: flex;
         flex-direction: column;
@@ -72,4 +73,17 @@
 
 .delete:hover {
     cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    #comments {
+        flex-direction: row;
+    }
+    #comments-container {
+        flex-basis: 60%;
+    }
+    #comment-form {
+        flex-basis: 40%;
+        width: max-content;
+    }
 }

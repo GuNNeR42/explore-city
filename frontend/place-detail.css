@@ -1,3 +1,9 @@
+header a {
+    text-decoration: none;
+    h1 {
+        color:black;
+    }
+}
 #name-container {
     display: flex;
     align-items: center;

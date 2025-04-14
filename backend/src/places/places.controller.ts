@@ -10,7 +10,7 @@ export class PlacesController {
         private placesService: PlacesService
     ) {}
 
-    @Get('types')
+    @Get('places/types')
     getPlaceTypes(){
         return PlaceType;
     }

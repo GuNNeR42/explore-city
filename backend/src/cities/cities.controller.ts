@@ -13,8 +13,8 @@ export class CitiesController {
 
     @Get()
     getCities(
-        @Query('start') start = 0,
-        @Query('count') count = 3
+        @Query('start') start: number,
+        @Query('count') count:number
     ): Promise<BriefReturnCityDto[]> {
         return this.citiesService.getCities(start, count);
     }

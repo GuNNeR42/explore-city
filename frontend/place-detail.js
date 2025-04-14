@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", function(){
         deletePlace();
     });
 
+    document.getElementById("edit-place-form").addEventListener("submit", event => {
+        event.preventDefault();
+        updatePlace();
+    })
+
     fetchPlaceData();
 
 })
@@ -55,6 +60,7 @@ async function fetchPlaceData() {
         // Populate UI
         populatePlaceDetails(place, ratings.length, avgRating);
         populateComments(comments);
+        populateUpdateModal(place)
 
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -145,4 +151,35 @@ function deleteComment(commentId) {
             location.reload();
         }
     })
+}
+
+function updatePlace(){
+    const body = {
+        name: document.getElementById('form-place-name').value,
+        description: document.getElementById('form-place-description').value,
+        address_line_1: document.getElementById('form-place-address_line_1').value,
+        address_line_2: document.getElementById('form-place-address_line_2').value,
+        place_type: document.getElementById('form-place-type').value
+    }
+
+    fetch(`http://localhost:3000/places/${placeId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+            location.reload();
+        }
+    })
+}
+
+function populateUpdateModal(place){
+    document.getElementById('form-place-name').value = place.name;
+    document.getElementById('form-place-description').value = place.description;
+    document.getElementById('form-place-address_line_1').value = place.address_line_1;
+    document.getElementById('form-place-address_line_2').value = place.address_line_2;
+    document.getElementById('form-place-type').value = place.place_type;
+
 }
